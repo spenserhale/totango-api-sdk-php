@@ -4,7 +4,7 @@ namespace SH\Totango;
 
 use Throwable;
 
-readonly class TotangoApiResponse
+class TotangoApiResponse
 {
     /**
      * @param  array{

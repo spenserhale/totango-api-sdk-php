@@ -15,11 +15,11 @@ use Throwable;
  *
  * @see https://support.totango.com/hc/en-us/articles/204174135-Search-API-accounts-and-users
  */
-readonly class TotangoSearchApi
+class TotangoSearchApi
 {
     public function __construct(
-        private TotangoClientInterface $client,
-        private string $host = 'https://api.totango.com'
+        private readonly TotangoClientInterface $client,
+        private readonly string $host = 'https://api.totango.com'
     ) {
     }
 
@@ -62,7 +62,7 @@ readonly class TotangoSearchApi
         return match ($response->status) {
             'failed' => new TotangoApiException($response->response),
             'exception' => $response->response,
-            default => $response->response['accounts'] ?? [],
+            default => static::transformAccounts($response->response['accounts'], $fields) ?? [],
         };
     }
 
@@ -98,5 +98,17 @@ readonly class TotangoSearchApi
         } while ($offset < $total);
 
         return array_merge(...$accounts);
+    }
+
+    protected static function transformAccounts(array $response, array $fields): array
+    {
+        foreach ($response['hits'] as &$account) {
+            foreach ($fields as $position => $field) {
+                $account[$field['attribute']] = $account['selected_fields'][$position];
+            }
+            unset($account['selected_fields']);
+        }
+
+        return $response;
     }
 }
