@@ -104,7 +104,8 @@ class TotangoSearchApi
     {
         foreach ($response['hits'] as &$account) {
             foreach ($fields as $position => $field) {
-                $account[$field['attribute']] = $account['selected_fields'][$position];
+                $key = $field['field_display_name'] ?? $field['attribute'];
+                $account[$key] = $account['selected_fields'][$position];
             }
             unset($account['selected_fields']);
         }
