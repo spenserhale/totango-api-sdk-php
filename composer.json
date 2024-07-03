@@ -1,0 +1,21 @@
+{
+    "name": "spenserhale/totango-api-sdk",
+    "description": "SDK for Totango API",
+    "type": "library",
+    "license": "MIT",
+    "platform": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SH\\Totango\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Spenser Hale",
+            "email": "opensource@spenserhale.dev"
+        }
+    ],
+    "require": {}
+}
